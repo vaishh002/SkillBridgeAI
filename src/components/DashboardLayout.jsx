@@ -38,6 +38,16 @@ function InterviewIcon() {
   );
 }
 
+function RoadmapIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+      <line x1="9" y1="3" x2="9" y2="18" />
+      <line x1="15" y1="6" x2="15" y2="21" />
+    </svg>
+  );
+}
+
 export default function DashboardLayout() {
   const { pathname } = useLocation();
   const { user } = useAuth();
@@ -45,10 +55,10 @@ export default function DashboardLayout() {
   const firstName = user?.fullName?.split(' ')[0] || user?.name?.split(' ')[0] || 'User';
 
   const sidebarLinks = [
-    { to: '/dashboard',           label: 'My Dashboard',   icon: <DashboardIcon /> },
-    { to: '/resume-analyzer',     label: 'Resume AI',      icon: <ResumeIcon /> },
-    { to: '/ats-checker',         label: 'ATS Checkers',   icon: <ATSIcon /> },
-    { to: '/interview-generator', label: 'Interview Prep',  icon: <InterviewIcon /> },
+    { to: '/dashboard',           label: 'Dashboard',         icon: <DashboardIcon /> },
+    { to: '/resume-analyzer',     label: 'Skill Gap Analyzer',icon: <ResumeIcon /> },
+    { to: '/roadmap',             label: 'Learning Roadmap',  icon: <RoadmapIcon /> },
+    { to: '/interview-generator', label: 'Interview Coach',   icon: <InterviewIcon /> },
   ];
 
   return (
@@ -60,7 +70,7 @@ export default function DashboardLayout() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
-          New Analysis
+          Scan Skill Gaps
         </Link>
 
         {/* Sidebar Nav links */}
@@ -84,32 +94,31 @@ export default function DashboardLayout() {
         {/* Storage Details Section (Google Drive Style) */}
         <div className="db-sidebar-storage">
           <div className="db-storage-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            <span>TOOLKIT USAGE</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>LEARNING STATS</span>
           </div>
           
           <div className="db-storage-bar-group">
             <div className="db-storage-bar-info">
-              <span>Resume Analyzer</span>
-              <span>3 / 10 scans</span>
+              <span>Target Career Role</span>
             </div>
-            <div className="db-storage-bar-track">
-              <div className="db-storage-bar-fill" style={{ width: '30%', background: '#38BDF8' }} />
-            </div>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginTop: 2 }}>
+              {user?.targetRole || 'Not Set'}
+            </span>
           </div>
 
           <div className="db-storage-bar-group">
             <div className="db-storage-bar-info">
-              <span>ATS Checkers</span>
-              <span>2 / 5 checks</span>
+              <span>Path Progress</span>
+              <span>{user?.careerReadinessScore || 0}%</span>
             </div>
             <div className="db-storage-bar-track">
-              <div className="db-storage-bar-fill" style={{ width: '40%', background: '#34D399' }} />
+              <div className="db-storage-bar-fill" style={{ width: `${user?.careerReadinessScore || 0}%`, background: '#38BDF8', transition: 'width 0.5s ease' }} />
             </div>
           </div>
 
-          <Link to="/dashboard" className="db-storage-upgrade">
-            Upgrade Plan ↗
+          <Link to="/roadmap" className="db-storage-upgrade">
+            View full roadmap ↗
           </Link>
         </div>
       </aside>
@@ -141,9 +150,14 @@ export default function DashboardLayout() {
       <style>{`
         .db-layout-container {
           display: flex;
-          min-height: calc(100vh - 68px);
+          height: calc(100vh - 68px);
+          margin-top: 68px; /* Clear the fixed 68px header navbar */
           background: #F8FAFC;
           font-family: 'Inter', -apple-system, sans-serif;
+          max-width: 100vw;
+          overflow: hidden;
+          width: 100%;
+          box-sizing: border-box;
         }
 
         /* Desktop Sidebar styling - Google Drive layout */
@@ -160,8 +174,6 @@ export default function DashboardLayout() {
           flex-shrink: 0;
           z-index: 95;
           box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
-          position: sticky;
-          top: 84px; /* offset top margin */
         }
 
         /* Premium Pill button matching Upload New File */
@@ -291,18 +303,16 @@ export default function DashboardLayout() {
         /* Mobile Sub-Navigation */
         .db-mobile-subnav {
           display: none;
-          position: sticky;
-          top: 68px;
-          z-index: 90;
-          background: rgba(255, 255, 255, 0.90);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: #FFFFFF;
           border-bottom: 1px solid #E2E8F0;
-          padding: 10px 16px;
+          padding: 12px 16px;
           gap: 8px;
           overflow-x: auto;
           scrollbar-width: none;
           -ms-overflow-style: none;
+          width: 100%;
+          max-width: 100vw;
+          box-sizing: border-box;
         }
 
         .db-mobile-subnav::-webkit-scrollbar {
@@ -344,13 +354,22 @@ export default function DashboardLayout() {
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+          height: 100%;
+          overflow-y: auto;
         }
 
         /* Responsive Breakpoint */
         @media (max-width: 1024px) {
           .db-layout-container {
             flex-direction: column;
+            height: auto;
             min-height: calc(100vh - 68px);
+            max-width: 100vw;
+            overflow: visible;
+            width: 100%;
           }
           
           .db-sidebar {
@@ -359,6 +378,11 @@ export default function DashboardLayout() {
 
           .db-mobile-subnav {
             display: flex;
+          }
+
+          .db-main-content {
+            height: auto;
+            overflow-y: visible;
           }
         }
       `}</style>

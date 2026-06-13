@@ -10,6 +10,8 @@ import Dashboard from "./pages/Dashboard";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import ATSChecker from "./pages/ATSChecker";
 import InterviewGenerator from "./pages/InterviewGenerator";
+import OnboardingQuiz from "./pages/OnboardingQuiz";
+import LearningRoadmap from "./pages/LearningRoadmap";
 
 // ─── Protected Route ─────────────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -48,6 +50,8 @@ function App() {
           <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
           <Route path="/ats-checker" element={<ATSChecker />} />
           <Route path="/interview-generator" element={<InterviewGenerator />} />
+          <Route path="/onboarding" element={<OnboardingQuiz />} />
+          <Route path="/roadmap" element={<LearningRoadmap />} />
         </Route>
 
         {/* Fallback */}

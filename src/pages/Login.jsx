@@ -679,7 +679,7 @@ function LeftPanel() {
           <span>Career Journey</span>
         </h2>
         <p className="log-sub">
-          Your AI-powered career toolkit is waiting. Resume analysis, job matching, and interview prep — all in one place.
+          Your personalized career toolkit is waiting. Resume analysis, job matching, and interview prep — all in one place.
         </p>
 
         {/* Illustration */}

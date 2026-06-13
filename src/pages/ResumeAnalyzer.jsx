@@ -1,4 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 // ─── Icons ────────────────────────────────────────────────────────
 function UploadIcon() {
@@ -35,55 +37,231 @@ function AlertIcon({ size = 16 }) {
   );
 }
 
-function StarIcon({ filled = false, size = 16 }) {
+function StarIcon({ filled = false, size = 16, style = {} }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
     </svg>
   );
 }
 
-function BriefcaseIcon() {
+function BriefcaseIcon({ size = 20, style = {} }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
     </svg>
   );
 }
 
-function TrendingIcon() {
+function TrendingIcon({ size = 20, style = {} }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
     </svg>
   );
 }
 
-function ShieldIcon() {
+function ShieldIcon({ size = 20, style = {} }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </svg>
   );
 }
 
-function LightbulbIcon() {
+function LightbulbIcon({ size = 20, style = {} }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
       <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14"/>
     </svg>
   );
 }
 
-function FileTextIcon() {
+function FileTextIcon({ size = 32, style = {} }) {
   return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={style}>
       <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
       <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
     </svg>
   );
 }
+
+function RocketIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M4.5 16.5c-1.5 1.25-2.5 3.5-2.5 3.5s2.25-1 3.5-2.5M12 12l9-9-3 12-6 3-3-3-3 3-3-3 3-6 12-3-9 9z"/>
+      <path d="M9 15l-3-3M19 5l-2-2M15 9l-2-2M13 15v3c0 .5-.2 1-.5 1.5L11 21M15 13h3c.5 0 1 .2 1.5.5L21 15"/>
+    </svg>
+  );
+}
+
+function CompassIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ size = 16, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  );
+}
+
+function OverviewIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <line x1="18" y1="20" x2="18" y2="10"/>
+      <line x1="12" y1="20" x2="12" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="14"/>
+    </svg>
+  );
+}
+
+function SkillsIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+  );
+}
+
+function ChecklistIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+      <line x1="9" y1="12" x2="10" y2="12"/>
+      <line x1="14" y1="12" x2="15" y2="12"/>
+      <line x1="9" y1="16" x2="10" y2="16"/>
+      <line x1="14" y1="16" x2="15" y2="16"/>
+    </svg>
+  );
+}
+
+function ShieldCheckIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <polyline points="9 11 11 13 15 9"/>
+    </svg>
+  );
+}
+
+function AlertTriangleIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  );
+}
+
+function PhoneIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  );
+}
+
+function SummaryIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+      <line x1="10" y1="9" x2="8" y2="9"/>
+    </svg>
+  );
+}
+
+function GraduationCapIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+      <path d="M6 12v5c0 2 2.24 4 6 4s6-2 6-4v-5"/>
+    </svg>
+  );
+}
+
+function TrophyIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/>
+    </svg>
+  );
+}
+
+function TargetIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </svg>
+  );
+}
+
+function KeyIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+    </svg>
+  );
+}
+
+function PaletteIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.35857 19.5 5.25 21 3.5 21C2.5 21 2 22 3.5 22C5.5 22 9 22 12 22Z"/>
+      <circle cx="7.5" cy="10.5" r="1.5" fill="currentColor"/>
+      <circle cx="11.5" cy="7.5" r="1.5" fill="currentColor"/>
+      <circle cx="16.5" cy="9.5" r="1.5" fill="currentColor"/>
+      <circle cx="15.5" cy="14.5" r="1.5" fill="currentColor"/>
+    </svg>
+  );
+}
+
+function GlobeIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </svg>
+  );
+}
+
+function BookIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"/>
+    </svg>
+  );
+}
+
+function ChartPieIcon({ size = 20, style = {} }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+      <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+    </svg>
+  );
+}
+
+
+
+
 
 // ─── Mock AI Analysis Engine ──────────────────────────────────────
 function analyzeResume(fileName, fileSize) {
@@ -206,6 +384,8 @@ function ProgressBar({ value, label, color }) {
 
 // ─── Main Component ───────────────────────────────────────────────
 export default function ResumeAnalyzer() {
+  const navigate = useNavigate();
+  const { token, logout } = useAuth();
   const [dragOver, setDragOver] = useState(false);
   const [file, setFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -265,6 +445,35 @@ export default function ResumeAnalyzer() {
     setActiveTab('overview');
   };
 
+  const handleGenerateRoadmap = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/roadmap/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          missingSkills: result.missingSkills,
+          targetRole: result.jobMatches?.[0]?.title || 'Frontend Developer'
+        })
+      });
+      const data = await response.json();
+      if (response.status === 401) {
+        logout();
+        navigate('/login');
+        return;
+      }
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to generate roadmap');
+      }
+      navigate('/roadmap');
+    } catch (err) {
+      console.error(err);
+      alert('Error generating roadmap: ' + err.message);
+    }
+  };
+
   const handleReset = () => {
     setFile(null);
     setResult(null);
@@ -288,21 +497,21 @@ export default function ResumeAnalyzer() {
   const currentStep = analyzing ? Math.min(Math.floor(progress / 17), 5) : 0;
 
   const tabs = [
-    { id: 'overview', label: '📊 Overview' },
-    { id: 'skills', label: '⚡ Skills' },
-    { id: 'sections', label: '📋 Sections' },
-    { id: 'jobs', label: '💼 Job Matches' },
-    { id: 'tips', label: '💡 Tips' },
+    { id: 'overview', label: 'Overview', icon: <OverviewIcon size={16} /> },
+    { id: 'skills', label: 'Skills', icon: <SkillsIcon size={16} /> },
+    { id: 'sections', label: 'Sections', icon: <ChecklistIcon size={16} /> },
+    { id: 'jobs', label: 'Job Matches', icon: <BriefcaseIcon size={16} /> },
+    { id: 'tips', label: 'Tips', icon: <LightbulbIcon size={16} /> },
   ];
 
   return (
-    <div style={styles.page}>
+    <div style={styles.page} className="ra-page">
       {/* ── Drive-style Header ── */}
-      <div style={styles.driveHeader}>
-        <div style={styles.driveHeaderLeft}>
-          <div style={styles.titleRow}>
-            <h1 style={styles.driveTitle}>Resume AI</h1>
-            <div style={styles.folderIconContainer}>
+      <div style={styles.driveHeader} className="ra-drive-header">
+        <div style={styles.driveHeaderLeft} className="ra-drive-header-left">
+          <div style={styles.titleRow} className="ra-title-row">
+            <h1 style={styles.driveTitle} className="ra-drive-title">Resume AI</h1>
+            <div style={styles.folderIconContainer} className="ra-folder-icon-container">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                 <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
@@ -310,17 +519,18 @@ export default function ResumeAnalyzer() {
               </svg>
             </div>
           </div>
-          <p style={styles.driveGreeting}>
-            Upload your resume and get instant AI-powered insights, ATS compatibility score, skill gap analysis, and personalized improvement tips.
+          <p style={styles.driveGreeting} className="ra-drive-greeting">
+            Upload your resume and get instant personalized insights, ATS compatibility score, skill gap analysis, and customized improvement tips.
           </p>
         </div>
       </div>
 
-      <div style={styles.container}>
+      <div style={styles.container} className="ra-container">
         {/* ── Upload Zone ── */}
         {!result && (
-          <div style={styles.uploadSection}>
+          <div style={styles.uploadSection} className="ra-upload-section">
             <div
+              className={`ra-drop-zone ${file ? 'has-file' : ''}`}
               style={{
                 ...styles.dropZone,
                 ...(dragOver ? styles.dropZoneActive : {}),
@@ -344,31 +554,32 @@ export default function ResumeAnalyzer() {
               />
 
               {!file ? (
-                <div style={styles.dropContent}>
-                  <div style={styles.uploadIconWrap}>
+                <div style={styles.dropContent} className="ra-drop-content">
+                  <div style={styles.uploadIconWrap} className="ra-upload-icon-wrap">
                     <UploadIcon />
                   </div>
-                  <h3 style={styles.dropTitle}>Drop your resume here</h3>
-                  <p style={styles.dropSub}>or <span style={styles.dropLink}>browse files</span></p>
-                  <div style={styles.dropFormats}>
+                  <h3 style={styles.dropTitle} className="ra-drop-title">Drop your resume here</h3>
+                  <p style={styles.dropSub} className="ra-drop-sub">or <span style={styles.dropLink}>browse files</span></p>
+                  <div style={styles.dropFormats} className="ra-drop-formats">
                     {['PDF', 'DOC', 'DOCX', 'TXT'].map(fmt => (
-                      <span key={fmt} style={styles.formatBadge}>{fmt}</span>
+                      <span key={fmt} style={styles.formatBadge} className="ra-format-badge">{fmt}</span>
                     ))}
                   </div>
-                  <p style={styles.dropLimit}>Maximum file size: 5MB</p>
+                  <p style={styles.dropLimit} className="ra-drop-limit">Maximum file size: 5MB</p>
                 </div>
               ) : (
-                <div style={styles.filePreview}>
-                  <div style={styles.fileIconWrap}>
+                <div style={styles.filePreview} className="ra-file-preview">
+                  <div style={styles.fileIconWrap} className="ra-file-icon-wrap">
                     <FileTextIcon />
                   </div>
-                  <div style={styles.fileInfo}>
-                    <p style={styles.fileName}>{file.name}</p>
-                    <p style={styles.fileSize}>{(file.size / 1024).toFixed(1)} KB · Ready to analyze</p>
+                  <div style={styles.fileInfo} className="ra-file-info">
+                    <p style={styles.fileName} className="ra-file-name">{file.name}</p>
+                    <p style={styles.fileSize} className="ra-file-size">{(file.size / 1024).toFixed(1)} KB · Ready to analyze</p>
                   </div>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleReset(); }}
                     style={styles.removeBtn}
+                    className="ra-remove-btn"
                     aria-label="Remove file"
                   >
                     <XIcon size={18} />
@@ -379,33 +590,38 @@ export default function ResumeAnalyzer() {
 
             {/* Analyze Button */}
             {file && !analyzing && (
-              <button onClick={handleAnalyze} style={styles.analyzeBtn} id="analyze-btn">
-                <span style={{ fontSize: 18 }}>🚀</span>
+              <button
+                onClick={handleAnalyze}
+                style={{ ...styles.analyzeBtn, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                className="ra-analyze-btn"
+                id="analyze-btn"
+              >
+                <RocketIcon size={20} />
                 Analyze My Resume
               </button>
             )}
 
             {/* Progress */}
             {analyzing && (
-              <div style={styles.progressCard}>
-                <div style={styles.progressHeader}>
-                  <div style={styles.progressSpinner} />
-                  <span style={styles.progressTitle}>Analyzing your resume...</span>
+              <div style={styles.progressCard} className="ra-progress-card">
+                <div style={styles.progressHeader} className="ra-progress-header">
+                  <div style={styles.progressSpinner} className="ra-progress-spinner" />
+                  <span style={styles.progressTitle} className="ra-progress-title">Analyzing your resume...</span>
                 </div>
-                <div style={styles.progressBarWrap}>
-                  <div style={styles.progressBarTrack}>
-                    <div style={{ ...styles.progressBarFill, width: `${progress}%` }} />
+                <div style={styles.progressBarWrap} className="ra-progress-bar-wrap">
+                  <div style={styles.progressBarTrack} className="ra-progress-bar-track">
+                    <div style={{ ...styles.progressBarFill, width: `${progress}%` }} className="ra-progress-bar-fill" />
                   </div>
-                  <span style={styles.progressPct}>{progress}%</span>
+                  <span style={styles.progressPct} className="ra-progress-pct">{progress}%</span>
                 </div>
-                <div style={styles.stepsList}>
+                <div style={styles.stepsList} className="ra-steps-list">
                   {analysisSteps.map((step, i) => (
-                    <div key={i} style={styles.stepItem}>
-                      <span style={{
+                    <div key={i} style={styles.stepItem} className="ra-step-item">
+                      <span className="ra-step-dot" style={{
                         ...styles.stepDot,
                         background: i < currentStep ? '#10B981' : i === currentStep ? '#2563EB' : '#E2E8F0',
                       }} />
-                      <span style={{
+                      <span className="ra-step-text" style={{
                         fontSize: 13,
                         color: i < currentStep ? '#10B981' : i === currentStep ? '#2563EB' : '#94A3B8',
                         fontWeight: i <= currentStep ? 500 : 400,
@@ -422,29 +638,29 @@ export default function ResumeAnalyzer() {
 
         {/* ── Results ── */}
         {result && (
-          <div style={styles.results}>
+          <div style={styles.results} className="ra-results">
             {/* Result Header */}
-            <div style={styles.resultHeader}>
-              <div style={styles.resultHeaderLeft}>
-                <div style={styles.resultFileChip}>
-                  <FileTextIcon />
-                  <span style={{ fontSize: 13, fontWeight: 500, color: '#374151' }}>{file.name}</span>
+            <div style={styles.resultHeader} className="ra-result-header">
+              <div style={styles.resultHeaderLeft} className="ra-result-header-left">
+                <div style={styles.resultFileChip} className="ra-result-file-chip">
+                  <FileTextIcon size={18} />
+                  <span style={{ fontSize: 13, fontWeight: 500, color: '#374151', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '180px' }}>{file.name}</span>
                 </div>
-                <p style={styles.resultDate}>Analyzed on {result.analysisDate}</p>
+                <p style={styles.resultDate} className="ra-result-date">Analyzed on {result.analysisDate}</p>
               </div>
-              <button onClick={handleReset} style={styles.newAnalysisBtn} id="new-analysis-btn">
+              <button onClick={handleReset} style={styles.newAnalysisBtn} className="ra-new-analysis-btn" id="new-analysis-btn">
                 + Analyze New Resume
               </button>
             </div>
 
             {/* Score Hero */}
-            <div style={styles.scoreHero}>
-              <div style={styles.scoreHeroBg} />
-              <div style={styles.scoreHeroContent}>
-                <div style={styles.mainScoreWrap}>
-                  <ScoreRing score={result.overallScore} size={160} label="Overall Score" color="auto" />
-                  <div style={styles.scoreVerdict}>
-                    <div style={{
+            <div style={styles.scoreHero} className="ra-score-hero">
+              <div style={styles.scoreHeroBg} className="ra-score-hero-bg" />
+              <div style={styles.scoreHeroContent} className="ra-score-hero-content">
+                <div style={styles.mainScoreWrap} className="ra-main-score-wrap">
+                  <ScoreRing score={result.overallScore} size={150} label="Overall Score" color="auto" />
+                  <div style={styles.scoreVerdict} className="ra-score-verdict">
+                    <div className="ra-verdict-badge" style={{
                       ...styles.verdictBadge,
                       background: `${getScoreColor(result.overallScore)}20`,
                       color: getScoreColor(result.overallScore),
@@ -452,53 +668,79 @@ export default function ResumeAnalyzer() {
                     }}>
                       {getScoreLabel(result.overallScore)}
                     </div>
-                    <h2 style={styles.verdictTitle}>
+                    <h2 style={styles.verdictTitle} className="ra-verdict-title">
                       {result.overallScore >= 80
                         ? 'Your resume is impressive! 🎉'
                         : result.overallScore >= 65
                         ? 'Your resume is solid with room to improve 📈'
                         : 'Your resume needs some work 🔧'}
                     </h2>
-                    <p style={styles.verdictSub}>
+                    <p style={styles.verdictSub} className="ra-verdict-sub">
                       {result.wordCount} words · {result.pageCount} page{result.pageCount > 1 ? 's' : ''}
                     </p>
                   </div>
                 </div>
-                <div style={styles.subScores}>
-                  <ScoreRing score={result.atsScore} size={100} label="ATS Score" color="#8B5CF6" />
-                  <ScoreRing score={result.readabilityScore} size={100} label="Readability" color="#06B6D4" />
-                  <ScoreRing score={result.keywordScore} size={100} label="Keywords" color="#F59E0B" />
+                <div style={styles.subScores} className="ra-sub-scores">
+                  <ScoreRing score={result.atsScore} size={90} label="ATS Score" color="#8B5CF6" />
+                  <ScoreRing score={result.readabilityScore} size={90} label="Readability" color="#06B6D4" />
+                  <ScoreRing score={result.keywordScore} size={90} label="Keywords" color="#F59E0B" />
                 </div>
               </div>
             </div>
 
+            {/* Roadmap Generation Banner */}
+            {result.missingSkills && result.missingSkills.length > 0 && (
+              <div style={styles.roadmapBanner} className="ra-roadmap-banner">
+                <div style={{ flex: 1 }} className="ra-roadmap-banner-text">
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#1E3A8A', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }} className="ra-roadmap-banner-title">
+                    <CompassIcon size={18} /> Build Your Learning Path
+                  </h3>
+                  <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: 0 }} className="ra-roadmap-banner-desc">
+                    We detected {result.missingSkills.length} missing skills relative to target roles. Convert these gaps into an adaptive learning roadmap now!
+                  </p>
+                </div>
+                <button 
+                  onClick={handleGenerateRoadmap}
+                  style={{ ...styles.roadmapBannerBtn, display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}
+                  className="ra-roadmap-banner-btn"
+                  id="generate-roadmap-from-gaps"
+                >
+                  Generate Roadmap <ArrowRightIcon size={14} />
+                </button>
+              </div>
+            )}
+
             {/* Tabs */}
-            <div style={styles.tabsWrap}>
-              <div style={styles.tabs}>
+            <div style={styles.tabsWrap} className="ra-tabs-wrap">
+              <div style={styles.tabs} className="ra-tabs">
                 {tabs.map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
+                    className={`ra-tab ${activeTab === tab.id ? 'ra-tab-active' : ''}`}
                     style={{
                       ...styles.tab,
                       ...(activeTab === tab.id ? styles.tabActive : {}),
                     }}
                     id={`tab-${tab.id}`}
                   >
-                    {tab.label}
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      {tab.icon}
+                      {tab.label}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Tab Content */}
-            <div style={styles.tabContent}>
+            <div style={styles.tabContent} className="ra-tab-content">
 
               {/* ─ Overview Tab ─ */}
               {activeTab === 'overview' && (
-                <div style={styles.grid2}>
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
+                <div style={styles.grid2} className="ra-grid-2">
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
                       <TrendingIcon />
                       Score Breakdown
                     </h3>
@@ -514,8 +756,8 @@ export default function ResumeAnalyzer() {
                     </div>
                   </div>
 
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
                       <ShieldIcon />
                       Quick Summary
                     </h3>
@@ -531,7 +773,7 @@ export default function ResumeAnalyzer() {
                           <span style={styles.summaryLabel}>{label}</span>
                           <div style={styles.summaryRight}>
                             <span style={styles.summaryValue}>{value}</span>
-                            <span style={{ color: good ? '#10B981' : '#F59E0B' }}>
+                            <span style={{ color: good ? '#10B981' : '#F59E0B', display: 'flex', alignItems: 'center' }}>
                               {good ? <CheckIcon /> : <AlertIcon />}
                             </span>
                           </div>
@@ -541,9 +783,9 @@ export default function ResumeAnalyzer() {
                   </div>
 
                   {result.strengths.length > 0 && (
-                    <div style={styles.card}>
-                      <h3 style={styles.cardTitle}>
-                        <span style={{ fontSize: 20 }}>✅</span>
+                    <div style={styles.card} className="ra-card">
+                      <h3 style={styles.cardTitle} className="ra-card-title">
+                        <ShieldCheckIcon size={20} style={{ color: '#10B981' }} />
                         What's Working
                       </h3>
                       <ul style={styles.list}>
@@ -557,9 +799,9 @@ export default function ResumeAnalyzer() {
                     </div>
                   )}
 
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
-                      <span style={{ fontSize: 20 }}>⚠️</span>
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
+                      <AlertTriangleIcon size={20} style={{ color: '#F59E0B' }} />
                       Needs Improvement
                     </h3>
                     <ul style={styles.list}>
@@ -576,10 +818,10 @@ export default function ResumeAnalyzer() {
 
               {/* ─ Skills Tab ─ */}
               {activeTab === 'skills' && (
-                <div style={styles.grid2}>
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
-                      <span style={{ fontSize: 20 }}>✅</span>
+                <div style={styles.grid2} className="ra-grid-2">
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
+                      <ShieldCheckIcon size={20} style={{ color: '#10B981' }} />
                       Skills Found ({result.presentSkills.length})
                     </h3>
                     <p style={{ fontSize: 13, color: '#64748B', marginBottom: 16 }}>
@@ -595,9 +837,9 @@ export default function ResumeAnalyzer() {
                     </div>
                   </div>
 
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
-                      <span style={{ fontSize: 20 }}>❌</span>
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
+                      <AlertTriangleIcon size={20} style={{ color: '#EF4444' }} />
                       Missing Skills ({result.missingSkills.length})
                     </h3>
                     <p style={{ fontSize: 13, color: '#64748B', marginBottom: 16 }}>
@@ -613,8 +855,8 @@ export default function ResumeAnalyzer() {
                     </div>
                   </div>
 
-                  <div style={{ ...styles.card, gridColumn: 'span 2' }}>
-                    <h3 style={styles.cardTitle}>
+                  <div style={{ ...styles.card, gridColumn: 'span 2' }} className="ra-card ra-card-span-2">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
                       <TrendingIcon />
                       Skill Match Rate
                     </h3>
@@ -640,34 +882,34 @@ export default function ResumeAnalyzer() {
 
               {/* ─ Sections Tab ─ */}
               {activeTab === 'sections' && (
-                <div style={styles.grid1}>
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
-                      <span style={{ fontSize: 20 }}>📋</span>
+                <div style={styles.grid1} className="ra-grid-1">
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
+                      <ChecklistIcon size={20} style={{ color: '#2563EB' }} />
                       Resume Sections Checklist
                     </h3>
                     <p style={{ fontSize: 13, color: '#64748B', marginBottom: 20 }}>
                       Complete resumes with all key sections score higher with ATS systems
                     </p>
-                    <div style={styles.sectionGrid}>
+                    <div style={styles.sectionGrid} className="ra-section-grid">
                       {Object.entries(result.sections).map(([key, present]) => {
                         const labels = {
-                          contact: { label: 'Contact Information', icon: '📞', desc: 'Phone, email, location, LinkedIn' },
-                          summary: { label: 'Professional Summary', icon: '📝', desc: 'Career objective or summary statement' },
-                          experience: { label: 'Work Experience', icon: '💼', desc: 'Job history with achievements' },
-                          education: { label: 'Education', icon: '🎓', desc: 'Degrees, institutions, graduation year' },
-                          skills: { label: 'Skills Section', icon: '⚡', desc: 'Technical and soft skills list' },
-                          projects: { label: 'Projects', icon: '🚀', desc: 'Portfolio or notable projects' },
-                          certifications: { label: 'Certifications', icon: '🏆', desc: 'Professional certifications & courses' },
+                          contact: { label: 'Contact Information', icon: <PhoneIcon size={20} />, desc: 'Phone, email, location, LinkedIn' },
+                          summary: { label: 'Professional Summary', icon: <SummaryIcon size={20} />, desc: 'Career objective or summary statement' },
+                          experience: { label: 'Work Experience', icon: <BriefcaseIcon size={20} />, desc: 'Job history with achievements' },
+                          education: { label: 'Education', icon: <GraduationCapIcon size={20} />, desc: 'Degrees, institutions, graduation year' },
+                          skills: { label: 'Skills Section', icon: <SkillsIcon size={20} />, desc: 'Technical and soft skills list' },
+                          projects: { label: 'Projects', icon: <RocketIcon size={20} />, desc: 'Portfolio or notable projects' },
+                          certifications: { label: 'Certifications', icon: <TrophyIcon size={20} />, desc: 'Professional certifications & courses' },
                         };
-                        const { label, icon, desc } = labels[key] || { label: key, icon: '📄', desc: '' };
+                        const { label, icon, desc } = labels[key] || { label: key, icon: <SummaryIcon size={20} />, desc: '' };
                         return (
-                          <div key={key} style={{
+                          <div key={key} className="ra-section-item" style={{
                             ...styles.sectionItem,
                             borderColor: present ? '#10B98130' : '#EF444430',
                             background: present ? '#F0FDF4' : '#FFF1F2',
                           }}>
-                            <span style={styles.sectionIcon}>{icon}</span>
+                            <span style={{ ...styles.sectionIcon, color: present ? '#10B981' : '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</span>
                             <div style={{ flex: 1 }}>
                               <p style={{ fontSize: 15, fontWeight: 600, color: '#0F172A', marginBottom: 2 }}>{label}</p>
                               <p style={{ fontSize: 12, color: '#64748B' }}>{desc}</p>
@@ -690,9 +932,9 @@ export default function ResumeAnalyzer() {
 
               {/* ─ Job Matches Tab ─ */}
               {activeTab === 'jobs' && (
-                <div style={styles.grid1}>
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
+                <div style={styles.grid1} className="ra-grid-1">
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
                       <BriefcaseIcon />
                       Best Job Role Matches
                     </h3>
@@ -701,8 +943,8 @@ export default function ResumeAnalyzer() {
                     </p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                       {result.jobMatches.map((job, i) => (
-                        <div key={job.title} style={styles.jobMatchItem}>
-                          <div style={styles.jobMatchRank}>
+                        <div key={job.title} style={styles.jobMatchItem} className="ra-job-match-item">
+                          <div style={styles.jobMatchRank} className="ra-job-match-rank">
                             {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}
                           </div>
                           <div style={{ flex: 1 }}>
@@ -745,11 +987,11 @@ export default function ResumeAnalyzer() {
 
               {/* ─ Tips Tab ─ */}
               {activeTab === 'tips' && (
-                <div style={styles.grid1}>
-                  <div style={styles.card}>
-                    <h3 style={styles.cardTitle}>
+                <div style={styles.grid1} className="ra-grid-1">
+                  <div style={styles.card} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
                       <LightbulbIcon />
-                      AI-Powered Recommendations
+                      Personalized Recommendations
                     </h3>
                     <p style={{ fontSize: 13, color: '#64748B', marginBottom: 20 }}>
                       Personalized tips to make your resume stand out and pass ATS filters
@@ -757,43 +999,45 @@ export default function ResumeAnalyzer() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                       {[
                         {
-                          priority: 'High', icon: '🎯',
+                          priority: 'High', icon: <TargetIcon size={24} style={{ color: '#EF4444' }} />,
                           title: 'Add Quantified Achievements',
                           tip: 'Replace generic statements with specific metrics. E.g., "Improved performance by 40%" instead of "Improved performance".',
                         },
                         {
-                          priority: 'High', icon: '🔑',
+                          priority: 'High', icon: <KeyIcon size={24} style={{ color: '#F59E0B' }} />,
                           title: 'Optimize for ATS Keywords',
                           tip: 'Study job descriptions for your target role and naturally incorporate matching keywords throughout your resume.',
                         },
                         {
-                          priority: 'Medium', icon: '📊',
+                          priority: 'Medium', icon: <OverviewIcon size={24} style={{ color: '#2563EB' }} />,
                           title: 'Use Strong Action Verbs',
                           tip: 'Start each bullet point with powerful verbs like "Architected", "Spearheaded", "Optimized", "Delivered".',
                         },
                         {
-                          priority: 'Medium', icon: '🎨',
+                          priority: 'Medium', icon: <PaletteIcon size={24} style={{ color: '#8B5CF6' }} />,
                           title: 'Improve Visual Formatting',
                           tip: 'Use consistent fonts, proper spacing, and clear section headers. Avoid tables and graphics that confuse ATS.',
                         },
                         {
-                          priority: 'Low', icon: '🌐',
+                          priority: 'Low', icon: <GlobeIcon size={24} style={{ color: '#06B6D4' }} />,
                           title: 'Add Online Presence',
                           tip: 'Include links to your LinkedIn profile, GitHub portfolio, or personal website to increase credibility.',
                         },
                         {
-                          priority: 'Low', icon: '📚',
+                          priority: 'Low', icon: <BookIcon size={24} style={{ color: '#10B981' }} />,
                           title: 'Highlight Continuous Learning',
                           tip: 'Add recent certifications, online courses, or workshops to demonstrate a growth mindset.',
                         },
                       ].map((tip, i) => (
-                        <div key={i} style={styles.tipCard}>
-                          <div style={styles.tipHeader}>
-                            <span style={styles.tipIcon}>{tip.icon}</span>
+                        <div key={i} style={styles.tipCard} className="ra-tip-card">
+                          <div style={styles.tipHeader} className="ra-tip-header">
+                            <span style={{ ...styles.tipIcon, display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="ra-tip-icon">
+                              {tip.icon}
+                            </span>
                             <div style={{ flex: 1 }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                                <h4 style={styles.tipTitle}>{tip.title}</h4>
-                                <span style={{
+                                <h4 style={styles.tipTitle} className="ra-tip-title">{tip.title}</h4>
+                                <span className="ra-priority-badge" style={{
                                   ...styles.priorityBadge,
                                   background: tip.priority === 'High' ? '#FEF2F2' : tip.priority === 'Medium' ? '#FFFBEB' : '#F0FDF4',
                                   color: tip.priority === 'High' ? '#EF4444' : tip.priority === 'Medium' ? '#D97706' : '#10B981',
@@ -801,7 +1045,7 @@ export default function ResumeAnalyzer() {
                                   {tip.priority} Priority
                                 </span>
                               </div>
-                              <p style={styles.tipText}>{tip.tip}</p>
+                              <p style={styles.tipText} className="ra-tip-text">{tip.tip}</p>
                             </div>
                           </div>
                         </div>
@@ -810,12 +1054,12 @@ export default function ResumeAnalyzer() {
                   </div>
 
                   {/* Resume Rating */}
-                  <div style={{ ...styles.card, background: 'linear-gradient(135deg, #667eea15, #764ba215)' }}>
-                    <h3 style={styles.cardTitle}>
-                      <span style={{ fontSize: 20 }}>⭐</span>
+                  <div style={{ ...styles.card, background: 'linear-gradient(135deg, #667eea15, #764ba215)' }} className="ra-card">
+                    <h3 style={styles.cardTitle} className="ra-card-title">
+                      <StarIcon size={20} filled={true} style={{ color: '#F59E0B' }} />
                       Resume Rating
                     </h3>
-                    <div style={styles.ratingWrap}>
+                    <div style={styles.ratingWrap} className="ra-rating-wrap">
                       {[1, 2, 3, 4, 5].map(star => (
                         <span key={star} style={{
                           color: star <= Math.round(result.overallScore / 20) ? '#F59E0B' : '#E2E8F0',
@@ -844,21 +1088,23 @@ export default function ResumeAnalyzer() {
 
         {/* ── Features Section (shown before upload) ── */}
         {!result && !analyzing && (
-          <div style={styles.featuresSection}>
-            <h2 style={styles.featuresTitle}>What We Analyze</h2>
-            <div style={styles.featuresGrid}>
+          <div style={styles.featuresSection} className="ra-features-section">
+            <h2 style={styles.featuresTitle} className="ra-features-title">What We Analyze</h2>
+            <div style={styles.featuresGrid} className="ra-features-grid">
               {[
-                { icon: '🎯', title: 'ATS Compatibility', desc: 'Check if your resume passes Applicant Tracking Systems used by 99% of Fortune 500 companies' },
-                { icon: '⚡', title: 'Skill Gap Analysis', desc: 'Identify missing in-demand skills and get recommendations on what to add to your resume' },
-                { icon: '📊', title: 'Score & Rating', desc: 'Get an overall score out of 100 with detailed breakdowns for each aspect of your resume' },
-                { icon: '💼', title: 'Job Role Matching', desc: 'See which job roles your resume is best suited for based on your experience and skills' },
-                { icon: '📝', title: 'Content Quality', desc: 'Evaluate the quality of your writing, action verbs, and achievement quantification' },
-                { icon: '💡', title: 'Smart Tips', desc: 'Receive AI-generated, personalized recommendations to make your resume stand out' },
+                { icon: <TargetIcon size={32} style={{ color: '#8B5CF6' }} />, title: 'ATS Compatibility', desc: 'Check if your resume passes Applicant Tracking Systems used by 99% of Fortune 500 companies' },
+                { icon: <SkillsIcon size={32} style={{ color: '#06B6D4' }} />, title: 'Skill Gap Analysis', desc: 'Identify missing in-demand skills and get recommendations on what to add to your resume' },
+                { icon: <OverviewIcon size={32} style={{ color: '#F59E0B' }} />, title: 'Score & Rating', desc: 'Get an overall score out of 100 with detailed breakdowns for each aspect of your resume' },
+                { icon: <BriefcaseIcon size={32} style={{ color: '#2563EB' }} />, title: 'Job Role Matching', desc: 'See which job roles your resume is best suited for based on your experience and skills' },
+                { icon: <ChecklistIcon size={32} style={{ color: '#10B981' }} />, title: 'Content Quality', desc: 'Evaluate the quality of your writing, action verbs, and achievement quantification' },
+                { icon: <LightbulbIcon size={32} style={{ color: '#EC4899' }} />, title: 'Smart Tips', desc: 'Receive AI-generated, personalized recommendations to make your resume stand out' },
               ].map(({ icon, title, desc }) => (
-                <div key={title} style={styles.featureCard}>
-                  <div style={styles.featureIcon}>{icon}</div>
-                  <h3 style={styles.featureTitle}>{title}</h3>
-                  <p style={styles.featureDesc}>{desc}</p>
+                <div key={title} style={styles.featureCard} className="ra-feature-card">
+                  <div style={{ ...styles.featureIcon, display: 'flex', justifyContent: 'center', marginBottom: 14 }} className="ra-feature-icon">
+                    {icon}
+                  </div>
+                  <h3 style={styles.featureTitle} className="ra-feature-title">{title}</h3>
+                  <p style={styles.featureDesc} className="ra-feature-desc">{desc}</p>
                 </div>
               ))}
             </div>
@@ -867,30 +1113,198 @@ export default function ResumeAnalyzer() {
       </div>
 
       <style>{`
+        /* Mobile Scrollable Tabs hiding scrollbar */
+        .ra-tabs-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+        .ra-tabs-wrap::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Hover animations and states */
+        .ra-analyze-btn:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 12px 36px rgba(37,99,235,0.45) !important;
+        }
+        .ra-tab:hover:not(.ra-tab-active) {
+          background: #F8FAFC !important;
+          color: #374151 !important;
+        }
+        .ra-feature-card:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 12px 32px rgba(0,0,0,0.1) !important;
+        }
+        .ra-drop-zone:hover:not(.has-file) {
+          border-color: #2563EB !important;
+          background: #EFF6FF !important;
+        }
+        .ra-remove-btn:hover {
+          background-color: #F8FAFC !important;
+          color: #EF4444 !important;
+          border-color: #FCA5A5 !important;
+        }
+
+        /* Keyframes */
+        @keyframes ra-spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes ra-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        @keyframes ra-slide-up {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ra-fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        /* ── Responsive Mobile Media Queries ── */
+        @media (max-width: 1024px) {
+          .ra-features-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+
         @media (max-width: 768px) {
-          .ra-grid-2 { grid-template-columns: 1fr !important; }
-          .ra-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-          .ra-tab { white-space: nowrap; font-size: 12px !important; padding: 8px 12px !important; }
-          .ra-score-hero-content { flex-direction: column !important; }
-          .ra-sub-scores { justify-content: center !important; }
-          .ra-features-grid { grid-template-columns: 1fr !important; }
-          .ra-hero-stats { gap: 20px !important; }
-          .ra-hero-title { font-size: 2rem !important; }
-          .ra-main-score-wrap { flex-direction: column !important; align-items: center !important; }
+          .ra-page {
+            padding: 16px 16px 40px !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+          }
+          .ra-drive-header {
+            margin-bottom: 20px !important;
+            padding-bottom: 16px !important;
+            gap: 12px !important;
+            max-width: 100% !important;
+          }
+          .ra-drive-title {
+            font-size: 20px !important;
+          }
+          .ra-drive-greeting {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+          }
+          .ra-container {
+            padding: 0 4px 40px !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .ra-drop-zone {
+            padding: 32px 16px !important;
+            border-radius: 16px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .ra-drop-title {
+            font-size: 18px !important;
+          }
+          .ra-progress-card {
+            padding: 18px !important;
+            border-radius: 16px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .ra-grid-2 {
+            grid-template-columns: 1fr !important;
+          }
+          .ra-card-span-2 {
+            grid-column: span 1 !important;
+          }
+          .ra-section-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .ra-score-hero {
+            padding: 24px 16px !important;
+            border-radius: 16px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .ra-score-hero-content {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 24px !important;
+          }
+          .ra-main-score-wrap {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            gap: 16px !important;
+          }
+          .ra-score-verdict {
+            text-align: center !important;
+          }
+          .ra-verdict-title {
+            font-size: 18px !important;
+          }
+          .ra-sub-scores {
+            justify-content: center !important;
+            width: 100% !important;
+            gap: 16px !important;
+            flex-wrap: wrap !important;
+          }
+          .ra-roadmap-banner {
+            flex-direction: column !important;
+            text-align: center !important;
+            align-items: stretch !important;
+            padding: 16px !important;
+            gap: 16px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          .ra-roadmap-banner-title {
+            justify-content: center !important;
+          }
+          .ra-roadmap-banner-btn {
+            width: 100% !important;
+          }
+          .ra-job-match-item {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+          }
+          .ra-job-match-rank {
+            text-align: left !important;
+          }
+          .ra-features-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .ra-feature-card {
+            padding: 20px !important;
+            border-radius: 16px !important;
+          }
+          .ra-result-header {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 16px !important;
+          }
+          .ra-new-analysis-btn {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+          }
         }
-        @media (max-width: 480px) {
-          .ra-hero-title { font-size: 1.7rem !important; }
-          .ra-features-grid { grid-template-columns: 1fr !important; }
-          .ra-sub-scores { gap: 16px !important; }
+
+        @media (max-width: 576px) {
+          .ra-tip-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+          .ra-tip-icon {
+            align-self: flex-start !important;
+          }
         }
-        @keyframes ra-spin { to { transform: rotate(360deg); } }
-        @keyframes ra-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        @keyframes ra-slide-up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes ra-fade-in { from{opacity:0} to{opacity:1} }
-        .ra-analyze-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 12px 36px rgba(37,99,235,0.45) !important; }
-        .ra-tab:hover:not(.ra-tab-active) { background: #F8FAFC !important; color: #374151 !important; }
-        .ra-feature-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 32px rgba(0,0,0,0.1) !important; }
-        .ra-drop-zone:hover:not(.has-file) { border-color: #2563EB !important; background: #EFF6FF !important; }
       `}</style>
     </div>
   );
@@ -1288,4 +1702,28 @@ const styles = {
   },
   featureTitle: { fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 8 },
   featureDesc: { fontSize: 14, color: '#64748B', lineHeight: 1.6 },
+  roadmapBanner: {
+    background: '#EFF6FF',
+    border: '1px solid #BFDBFE',
+    borderRadius: 16,
+    padding: '20px 24px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 20,
+    flexWrap: 'wrap',
+    marginBottom: 24,
+  },
+  roadmapBannerBtn: {
+    background: '#2563EB',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: 10,
+    padding: '10px 18px',
+    fontSize: 13,
+    fontWeight: 700,
+    cursor: 'pointer',
+    boxShadow: '0 4px 10px rgba(37, 99, 235, 0.15)',
+    fontFamily: "'Inter', sans-serif",
+  }
 };

@@ -1,39 +1,31 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-// ─── Document Type & Action Icons (Google Drive Style) ───────────────
+// ─── Document Type Icons ──────────────────────────────────────────
 function PDFIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
       <rect x="3" y="3" width="18" height="18" rx="4" fill="#EF4444"/>
       <text x="12" y="15" fill="white" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="'Inter', sans-serif">PDF</text>
     </svg>
   );
 }
 
-function SheetIcon() {
+function CodeIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
       <rect x="3" y="3" width="18" height="18" rx="4" fill="#10B981"/>
-      <text x="12" y="15" fill="white" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="'Inter', sans-serif">XLS</text>
+      <text x="12" y="15" fill="white" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="'Inter', sans-serif">DEV</text>
     </svg>
   );
 }
 
 function DocIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
       <rect x="3" y="3" width="18" height="18" rx="4" fill="#3B82F6"/>
       <text x="12" y="15" fill="white" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="'Inter', sans-serif">DOC</text>
-    </svg>
-  );
-}
-
-function SlideIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-      <rect x="3" y="3" width="18" height="18" rx="4" fill="#F59E0B"/>
-      <text x="12" y="15" fill="white" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="'Inter', sans-serif">PPT</text>
     </svg>
   );
 }
@@ -46,150 +38,228 @@ function FolderIcon({ color = '#64748B' }) {
   );
 }
 
-function ShareLinkIcon() {
+function ArrowUpRightIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-      <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+      <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
     </svg>
   );
 }
 
-function MoreIcon() {
+// ─── Score Ring Component ─────────────────────────────────────────
+function ProgressRing({ score, size = 130 }) {
+  const radius = (size - 20) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dash = (score / 100) * circumference;
+  const scoreColor = score >= 80 ? '#10B981' : score >= 50 ? '#2563EB' : '#F59E0B';
+
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/>
-    </svg>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+      <div style={{ position: 'relative', width: size, height: size }}>
+        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#F1F5F9" strokeWidth="10" />
+          <circle
+            cx={size / 2} cy={size / 2} r={radius}
+            fill="none" stroke={scoreColor} strokeWidth="10"
+            strokeDasharray={circumference}
+            strokeDashoffset={circumference - dash}
+            strokeLinecap="round"
+            style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
+          />
+        </svg>
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{ fontSize: 28, fontWeight: 800, color: scoreColor, lineHeight: 1 }}>{score}%</span>
+          <span style={{ fontSize: 10, color: '#64748B', fontWeight: 600, marginTop: 4 }}>Readiness</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, token, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const firstName = user?.fullName?.split(' ')[0] || user?.name?.split(' ')[0] || 'Student';
+  const [roadmap, setRoadmap] = useState([]);
+  const [preferences, setPreferences] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // 4 Toolkit tools represented as premium Folder Cards
+  const firstName = user?.fullName?.split(' ')[0] || user?.name?.split(' ')[0] || 'Learner';
+
+  useEffect(() => {
+    fetchRoadmapData();
+  }, []);
+
+  const fetchRoadmapData = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/roadmap', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.status === 401) {
+        logout();
+        navigate('/login');
+        return;
+      }
+      if (response.ok) {
+        setRoadmap(data.roadmap || []);
+        setPreferences(data.preferences || null);
+      }
+    } catch (err) {
+      console.error('Error fetching dashboard roadmap data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activeModules = roadmap.filter(item => item.status === 'in_progress');
+  const incompleteModules = roadmap.filter(item => item.status !== 'completed');
+  const nextUp = incompleteModules[0] || null;
+
+  // 4 Core Action folders
   const tools = [
     {
+      id: 'roadmap',
+      title: 'Learning Path',
+      sub: 'My Learning Roadmap',
+      badge: 'Active Path',
+      path: '/roadmap',
+      selected: true,
+      avatars: ['📚', '⚡'],
+    },
+    {
       id: 'resume-analyzer',
-      title: 'Resume AI',
-      sub: 'Resume Analyzer',
-      badge: 'Most Popular',
+      title: 'Skill Gap Scanner',
+      sub: 'Resume Gap Analyzer',
+      badge: 'Scan Gaps',
       path: '/resume-analyzer',
-      selected: true, // Selected card has blue background matching "Design Files" folder
-      avatars: ['AI', 'US', 'RD'], // overlapping user indicators
-    },
-    {
-      id: 'ats-checker',
-      title: 'ATS Checkers',
-      sub: 'ATS Score Checker',
-      badge: 'New',
-      path: '/ats-checker',
       selected: false,
-      avatars: ['AT', 'SC'],
+      avatars: ['🔍', '📄'],
     },
     {
-      id: 'interview-prep',
-      title: 'Interview Coach',
-      sub: 'Interview Prep',
-      badge: 'AI Powered',
+      id: 'interview-coach',
+      title: 'Interview Prep',
+      sub: 'Mock Interview Coach',
+      badge: 'Final Prep',
       path: '/interview-generator',
       selected: false,
-      avatars: ['IN', 'CO', 'AI'],
+      avatars: ['🤝', '🎤'],
     },
     {
-      id: 'career-stats',
-      title: 'Career Insights',
-      sub: 'Insights & Trends',
-      badge: 'Coming Soon',
-      path: '/dashboard',
+      id: 'preferences',
+      title: 'Path settings',
+      sub: 'Update Goals',
+      badge: 'Preferences',
+      path: '/onboarding',
       selected: false,
-      avatars: ['SO', 'ON'],
-      disabled: true,
-    },
-  ];
-
-  // Quick Tips & Guides styled as Files in a Table
-  const recentFiles = [
-    {
-      name: 'Resume_Tailoring_Guide.pdf',
-      category: 'Resume Tip',
-      tip: 'Tailor your resume for each job application to match key terms.',
-      icon: <PDFIcon />,
-      lastModified: 'Today, 12:42 PM',
-      size: '120 KB',
-      actionPath: '/resume-analyzer',
-    },
-    {
-      name: 'Quantify_Achievements_Checklist.xlsx',
-      category: 'Metric Guide',
-      tip: 'Quantify your accomplishments with specific numbers & percentages.',
-      icon: <SheetIcon />,
-      lastModified: 'Yesterday, 10:14 PM',
-      size: '85 KB',
-      actionPath: '/resume-analyzer',
-    },
-    {
-      name: 'ATS_Keyword_Optimization.docs',
-      category: 'ATS Guide',
-      tip: 'Include role-specific keywords naturally throughout your experience section.',
-      icon: <DocIcon />,
-      lastModified: 'Jun 10, 2026',
-      size: '156 KB',
-      actionPath: '/ats-checker',
-    },
-    {
-      name: 'STAR_Method_Interview_Prep.pdf',
-      category: 'Interview Coach',
-      tip: 'Structure answers using Situation, Task, Action, Result format.',
-      icon: <PDFIcon />,
-      lastModified: 'Jun 8, 2026',
-      size: '195 KB',
-      actionPath: '/interview-generator',
+      avatars: ['⚙️', '🎯'],
     },
   ];
 
   return (
-    <div style={ds.page}>
+    <div className="dashboard-page" style={ds.page}>
       
-      {/* ── Drive-style Header ── */}
-      <div style={ds.driveHeader}>
+      {/* Header */}
+      <div className="dashboard-header" style={ds.driveHeader}>
         <div style={ds.driveHeaderLeft}>
           <div style={ds.titleRow}>
-            <h1 style={ds.driveTitle}>My Dashboard</h1>
+            <h1 style={ds.driveTitle}>Dashboard</h1>
             <div style={ds.folderIconContainer}><FolderIcon color="#2563EB" /></div>
           </div>
           <p style={ds.driveGreeting}>
-            Welcome back, <strong style={{ color: '#0F172A' }}>{firstName}</strong>! Here is your AI Career Toolkit status as of today.
+            Welcome back, <strong style={{ color: '#0F172A' }}>{firstName}</strong>! Here is your personalized learning path overview.
           </p>
-        </div>
-
-        {/* View Toggle Icons (Google Drive Detail) */}
-        <div style={ds.viewControls}>
-          <button style={ds.iconBtnActive} title="Grid view">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          </button>
-          <button style={ds.iconBtn} title="List view" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-          <div style={ds.verticalDivider} />
-          <button style={ds.iconBtn} title="View details" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          </button>
         </div>
       </div>
 
-      <div style={ds.container}>
+      <div className="dashboard-content-container" style={ds.container}>
         
-        {/* ── Quick Access Row (Tools Grid) ── */}
-        <div style={ds.sectionWrapper}>
+        {/* Onboarding Alert Banner if Target Role is not set */}
+        {!preferences?.targetRole ? (
+          <div className="onboarding-notice" style={ds.noticeCard}>
+            <div style={{ flex: 1 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1E3A8A', marginBottom: 4 }}>🧭 Build Your Learning Path</h3>
+              <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+                You haven't customized your career roadmap yet. Scan your resume or take the quick onboarding questionnaire to unlock adaptive study modules.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <Link to="/onboarding" style={ds.noticePrimaryBtn}>Setup Goals</Link>
+              <Link to="/resume-analyzer" style={ds.noticeSecondaryBtn}>Scan Resume</Link>
+            </div>
+          </div>
+        ) : (
+          /* Roadmap Summary widgets */
+          <div className="roadmap-stats-grid" style={ds.statsGrid}>
+            
+            {/* Target Role widget */}
+            <div className="stats-card" style={ds.statsCard}>
+              <div>
+                <span style={ds.statsCardTag}>TARGET CAREER GOAL</span>
+                <h3 style={ds.statsCardTitle}>{preferences.targetRole}</h3>
+                <p style={{ fontSize: 12, color: '#64748B', marginTop: 8 }}>
+                  Preferences: {preferences.learningStyle} learning, {preferences.weeklyHours} hours per week.
+                </p>
+              </div>
+              <Link to="/onboarding" style={ds.statsCardLink}>
+                Change settings ⚙️
+              </Link>
+            </div>
+
+            {/* Path Readiness Score Ring */}
+            <div className="stats-card" style={{ ...ds.statsCard, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+              <div>
+                <span style={ds.statsCardTag}>PATH COMPLETION</span>
+                <h4 style={{ fontSize: 13, fontWeight: 700, color: '#1E293B', marginTop: 6 }}>Career Readiness Level</h4>
+                <p style={{ fontSize: 12, color: '#64748B', marginTop: 6, lineHeight: 1.4 }}>
+                  Master topics on your roadmap to increase your readiness score.
+                </p>
+              </div>
+              <ProgressRing score={preferences.careerReadinessScore || 0} />
+            </div>
+
+            {/* Next module up */}
+            <div className="stats-card" style={ds.statsCard}>
+              <div>
+                <span style={ds.statsCardTag}>NEXT STUDY TOPIC</span>
+                {nextUp ? (
+                  <>
+                    <h3 style={{ ...ds.statsCardTitle, fontSize: 18, color: '#2563EB', marginTop: 6 }}>{nextUp.skillName}</h3>
+                    <p style={{ fontSize: 12, color: '#64748B', marginTop: 8, lineHeight: 1.4 }}>
+                      Selected resource: "{nextUp.resources?.[0]?.title || 'Study Guide'}"
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h3 style={{ ...ds.statsCardTitle, fontSize: 18, color: '#10B981', marginTop: 6 }}>Path Completed! 🎉</h3>
+                    <p style={{ fontSize: 12, color: '#64748B', marginTop: 8 }}>
+                      You have mastered all skills in this roadmap. Test yourself in the Interview Coach!
+                    </p>
+                  </>
+                )}
+              </div>
+              <Link to="/roadmap" style={ds.statsCardLinkBtn}>
+                {nextUp ? 'Continue Learning ⚡' : 'Review Path'}
+              </Link>
+            </div>
+
+          </div>
+        )}
+
+        {/* Quick Access Folders */}
+        <div className="dashboard-section-wrapper" style={ds.sectionWrapper}>
           <div style={ds.sectionHeadingRow}>
             <span style={ds.sectionLabel}>QUICK ACCESS</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
           
-          <div style={ds.toolsGrid}>
+          <div className="dashboard-tools-grid" style={ds.toolsGrid}>
             {tools.map((tool) => {
               const cardStyle = tool.selected ? ds.selectedFolderCard : ds.folderCard;
               const titleStyle = tool.selected ? ds.selectedFolderTitle : ds.folderTitle;
@@ -199,29 +269,23 @@ export default function Dashboard() {
               return (
                 <Link 
                   key={tool.id} 
-                  to={tool.disabled ? '#' : tool.path}
-                  style={{ 
-                    ...cardStyle, 
-                    pointerEvents: tool.disabled ? 'none' : 'auto', 
-                    opacity: tool.disabled ? 0.6 : 1 
-                  }}
-                  className={`tool-folder-${tool.id}`}
+                  to={tool.path}
+                  style={cardStyle}
+                  className="dashboard-folder-card"
                   id={`folder-${tool.id}`}
                 >
                   <div style={ds.folderHeader}>
-                    <span style={tagStyle}>SHARED WITH</span>
+                    <span style={tagStyle}>{tool.badge}</span>
                     
-                    {/* Avatars indicating shared with AI models */}
                     <div style={ds.avatarStack}>
                       {tool.avatars.map((av, index) => (
                         <div 
                           key={index} 
                           style={{
                             ...ds.miniAvatar,
-                            background: tool.selected ? '#3b82f6' : '#E2E8F0',
+                            background: tool.selected ? '#3B82F6' : '#EFF6FF',
                             border: `2px solid ${tool.selected ? '#1D4ED8' : '#FFFFFF'}`,
-                            color: tool.selected ? '#FFFFFF' : '#475569',
-                            marginLeft: index > 0 ? -8 : 0,
+                            marginLeft: index > 0 ? -6 : 0,
                             zIndex: 10 - index
                           }}
                         >
@@ -236,7 +300,7 @@ export default function Dashboard() {
                   </div>
 
                   <div style={ds.folderTextRow}>
-                    <span style={subStyle}>{tool.badge}</span>
+                    <span style={subStyle}>{tool.sub}</span>
                     <h3 style={titleStyle}>{tool.title}</h3>
                   </div>
                 </Link>
@@ -245,85 +309,93 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* ── All Files Section (Document Table) ── */}
-        <div style={ds.sectionWrapper}>
-          <div style={ds.sectionHeadingRow}>
-            <span style={ds.sectionLabel}>ALL FILES & CAREER GUIDES</span>
-          </div>
-
-          <div style={ds.tableContainer}>
-            <table style={ds.table}>
-              <thead>
-                <tr style={ds.tableHeaderRow}>
-                  <th style={ds.th}>NAME</th>
-                  <th style={ds.th}>CATEGORY</th>
-                  <th style={ds.th}>QUICK CAREER TIP</th>
-                  <th style={ds.th}>FILE SIZE</th>
-                  <th style={{ ...ds.th, textAlign: 'right' }}>ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentFiles.map((file, i) => (
-                  <tr key={i} style={ds.tableRow} className="db-table-row">
-                    {/* Name column */}
-                    <td style={ds.td}>
-                      <div style={ds.fileNameCell}>
-                        {file.icon}
-                        <Link to={file.actionPath} style={ds.fileNameText}>
-                          {file.name}
-                        </Link>
-                      </div>
-                    </td>
-
-                    {/* Owner category column */}
-                    <td style={ds.td}>
-                      <div style={ds.ownerCell}>
-                        <div style={ds.ownerAvatar}>SB</div>
-                        <span style={ds.ownerLabel}>{file.category}</span>
-                      </div>
-                    </td>
-
-                    {/* Tip description column */}
-                    <td style={ds.td}>
-                      <span style={ds.tipText}>{file.tip}</span>
-                    </td>
-
-                    {/* Size column */}
-                    <td style={ds.td}>
-                      <span style={ds.sizeText}>{file.size}</span>
-                    </td>
-
-                    {/* Interactive icons on hover */}
-                    <td style={{ ...ds.td, textAlign: 'right' }}>
-                      <div style={ds.rowActionsWrapper} className="row-actions">
-                        <Link to={file.actionPath} style={ds.rowActionButton} title="Open Tool">
-                          <ShareLinkIcon />
-                        </Link>
-                        <button style={ds.rowActionButton} title="More actions">
-                          <MoreIcon />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* ── Premium Upgrade Banner (Storage Promo style) ── */}
-        <div style={ds.upgradeCard}>
-          <div style={ds.upgradeInner}>
-            <div style={ds.upgradeText}>
-              <h2 style={ds.upgradeTitle}>Ready to land your dream job?</h2>
-              <p style={ds.upgradeDesc}>Unlock unlimited scans, ATS keyword suggestions, and custom AI coach roadmaps.</p>
+        {/* Dynamic Learning Roadmap Tasks Table */}
+        {roadmap.length > 0 && (
+          <div className="dashboard-section-wrapper" style={ds.sectionWrapper}>
+            <div style={ds.sectionHeadingRow}>
+              <span style={ds.sectionLabel}>ACTIVE STUDY TASKS</span>
             </div>
-            <Link to="/resume-analyzer" style={ds.upgradeBtn} id="dashboard-upgrade-link">
-              🚀 Analyze Resume
-            </Link>
+
+            <div style={ds.tableContainer}>
+              <table style={ds.table}>
+                <thead>
+                  <tr style={ds.tableHeaderRow}>
+                    <th style={ds.th}>TOPIC MODULE</th>
+                    <th style={ds.th} className="db-table-hide-mobile">RESOURCE FORMAT</th>
+                    <th style={ds.th} className="db-table-hide-mobile">RECOMMENDED START RESOURCE</th>
+                    <th style={ds.th}>STATUS</th>
+                    <th style={{ ...ds.th, textAlign: 'right' }}>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {roadmap.slice(0, 5).map((item, i) => {
+                    const primaryResource = item.resources?.[0] || null;
+                    const isCompleted = item.status === 'completed';
+                    const isInProgress = item.status === 'in_progress';
+                    
+                    let statusBadgeColor = '#F1F5F9';
+                    let statusTextColor = '#475569';
+                    if (isCompleted) {
+                      statusBadgeColor = '#D1FAE5';
+                      statusTextColor = '#065F46';
+                    } else if (isInProgress) {
+                      statusBadgeColor = '#DBEAFE';
+                      statusTextColor = '#1E40AF';
+                    }
+
+                    return (
+                      <tr key={i} style={ds.tableRow} className="db-table-row" onClick={() => navigate('/roadmap')}>
+                        
+                        {/* Module Name */}
+                        <td style={ds.td}>
+                          <div style={ds.fileNameCell}>
+                            {primaryResource?.type === 'video' ? <PDFIcon /> : primaryResource?.type === 'practice' ? <CodeIcon /> : <DocIcon />}
+                            <span style={ds.fileNameText}>{item.skillName}</span>
+                          </div>
+                        </td>
+
+                        {/* Format category */}
+                        <td style={ds.td} className="db-table-hide-mobile">
+                          <span style={ds.ownerLabel}>{primaryResource?.type === 'video' ? 'Interactive Video' : primaryResource?.type === 'practice' ? 'Hands-on Practice' : 'Documentation Guide'}</span>
+                        </td>
+
+                        {/* Title link */}
+                        <td style={ds.td} className="db-table-hide-mobile">
+                          <span style={ds.tipText}>{primaryResource?.title || 'Resource Link'}</span>
+                        </td>
+
+                        {/* Status badge */}
+                        <td style={ds.td}>
+                          <span style={{
+                            fontSize: 11,
+                            fontWeight: 700,
+                            borderRadius: 6,
+                            padding: '3px 8px',
+                            background: statusBadgeColor,
+                            color: statusTextColor
+                          }}>
+                            {isCompleted ? 'Mastered' : isInProgress ? 'Learning' : 'Not Started'}
+                          </span>
+                        </td>
+
+                        {/* Arrow Action */}
+                        <td style={{ ...ds.td, textAlign: 'right' }}>
+                          <div style={ds.rowActionsWrapper} className="row-actions">
+                            <Link to="/roadmap" style={ds.rowActionButton} title="Open Roadmap">
+                              <ArrowUpRightIcon />
+                            </Link>
+                          </div>
+                        </td>
+
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        
+        )}
+
       </div>
 
       <style>{`
@@ -341,32 +413,40 @@ export default function Dashboard() {
           opacity: 0.25;
           transition: opacity 0.2s;
         }
-        
-        [class^="tool-folder-"] {
+        .dashboard-folder-card {
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
-        [class^="tool-folder-"]:hover {
+        .dashboard-folder-card:hover {
           transform: translateY(-4px) !important;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
         }
-        .tool-folder-resume-analyzer:hover {
-          box-shadow: 0 10px 24px rgba(37, 99, 235, 0.3) !important;
+        .dashboard-page {
+          padding: 32px 32px 60px !important;
         }
-
-        @media (max-width: 900px) {
-          .db-tools-grid {
+        @media (max-width: 768px) {
+          .dashboard-page {
+            padding: 16px 16px 40px !important;
+          }
+          .dashboard-tools-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
-        }
-        @media (max-width: 600px) {
-          .db-tools-grid {
+          .roadmap-stats-grid {
             grid-template-columns: 1fr !important;
           }
-          .db-table-header-row th:nth-child(2),
-          .db-table-header-row th:nth-child(4),
-          .db-table-row td:nth-child(2),
-          .db-table-row td:nth-child(4) {
+          .onboarding-notice {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          .db-table-hide-mobile {
             display: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .dashboard-tools-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .dashboard-page {
+            padding: 12px 12px 32px !important;
           }
         }
       `}</style>
@@ -374,13 +454,13 @@ export default function Dashboard() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────
+// ─── Component Styles ───────────────────────────────────────────────
 const ds = {
   page: {
     minHeight: 'calc(100vh - 68px)',
     background: '#FFFFFF',
     fontFamily: "'Inter', -apple-system, sans-serif",
-    padding: '24px 32px 60px',
+    padding: '32px 32px 60px',
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
@@ -426,53 +506,93 @@ const ds = {
     color: '#64748B',
     margin: 0,
   },
-  viewControls: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 4,
-    background: '#F1F5F9',
-    padding: 4,
-    borderRadius: 10,
-    border: '1px solid #E2E8F0',
-  },
-  iconBtn: {
-    background: 'none',
-    border: 'none',
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#64748B',
-    cursor: 'not-allowed',
-    padding: 0,
-  },
-  iconBtnActive: {
-    background: '#FFFFFF',
-    border: 'none',
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#2563EB',
-    cursor: 'pointer',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
-    padding: 0,
-  },
-  verticalDivider: {
-    width: 1,
-    height: 20,
-    background: '#E2E8F0',
-    margin: '0 4px',
-  },
   container: {
     display: 'flex',
     flexDirection: 'column',
     gap: 36,
     width: '100%',
+  },
+  noticeCard: {
+    background: '#EFF6FF',
+    border: '1px solid #BFDBFE',
+    borderRadius: 16,
+    padding: '24px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 24,
+    flexWrap: 'wrap'
+  },
+  noticePrimaryBtn: {
+    background: '#2563EB',
+    color: '#FFFFFF',
+    padding: '10px 18px',
+    borderRadius: 8,
+    fontSize: 13,
+    fontWeight: 700,
+    textDecoration: 'none',
+    boxShadow: '0 4px 10px rgba(37,99,235,0.15)'
+  },
+  noticeSecondaryBtn: {
+    background: '#FFFFFF',
+    border: '1.5px solid #D1D5DB',
+    color: '#475569',
+    padding: '9px 18px',
+    borderRadius: 8,
+    fontSize: 13,
+    fontWeight: 700,
+    textDecoration: 'none'
+  },
+  statsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: 20
+  },
+  statsCard: {
+    background: '#FFFFFF',
+    border: '1px solid #E2E8F0',
+    borderRadius: 16,
+    padding: '24px',
+    boxShadow: '0 4px 15px rgba(15, 23, 42, 0.02)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    minHeight: 160
+  },
+  statsCardTag: {
+    fontSize: 10,
+    fontWeight: 700,
+    color: '#2563EB',
+    letterSpacing: '0.12em',
+    display: 'block',
+    marginBottom: 6
+  },
+  statsCardTitle: {
+    fontSize: 20,
+    fontWeight: 800,
+    color: '#0F172A',
+    letterSpacing: '-0.02em',
+    margin: 0
+  },
+  statsCardLink: {
+    fontSize: 12,
+    color: '#64748B',
+    fontWeight: 600,
+    textDecoration: 'none',
+    marginTop: 12
+  },
+  statsCardLinkBtn: {
+    background: '#F1F5F9',
+    color: '#1E293B',
+    padding: '8px 14px',
+    borderRadius: 8,
+    fontSize: 12,
+    fontWeight: 700,
+    textDecoration: 'none',
+    marginTop: 12,
+    border: '1px solid #E2E8F0',
+    transition: 'background 0.2s'
   },
   sectionWrapper: {
     display: 'flex',
@@ -492,21 +612,30 @@ const ds = {
   },
   toolsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
     gap: 20,
-    className: 'db-tools-grid',
   },
-  
-  // Normal Folder Card (Google Drive Style)
   folderCard: {
-    background: '#F8FAFC',
-    border: '1px solid #E2E8F0',
-    borderRadius: 16,
-    padding: 16,
+    background: '#FFFFFF',
+    border: '1.5px solid #E2E8F0',
+    borderRadius: 20,
+    padding: '20px 24px',
     display: 'flex',
     flexDirection: 'column',
+    gap: 18,
     textDecoration: 'none',
-    gap: 16,
+    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.02)',
+  },
+  selectedFolderCard: {
+    background: 'linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%)',
+    border: '1.5px solid #1D4ED8',
+    borderRadius: 20,
+    padding: '20px 24px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 18,
+    textDecoration: 'none',
+    boxShadow: '0 8px 24px rgba(37, 99, 235, 0.25)',
   },
   folderHeader: {
     display: 'flex',
@@ -514,9 +643,21 @@ const ds = {
     alignItems: 'center',
   },
   badge: {
-    fontSize: 9,
-    fontWeight: 700,
-    color: '#94A3B8',
+    background: '#EFF6FF',
+    color: '#2563EB',
+    padding: '4px 10px',
+    borderRadius: 9999,
+    fontSize: 10,
+    fontWeight: 800,
+    letterSpacing: '0.04em',
+  },
+  selectedBadge: {
+    background: 'rgba(255, 255, 255, 0.18)',
+    color: '#FFFFFF',
+    padding: '4px 10px',
+    borderRadius: 9999,
+    fontSize: 10,
+    fontWeight: 800,
     letterSpacing: '0.04em',
   },
   avatarStack: {
@@ -524,18 +665,16 @@ const ds = {
     alignItems: 'center',
   },
   miniAvatar: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     borderRadius: '50%',
-    fontSize: 9,
-    fontWeight: 700,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: 10,
   },
   folderIconRow: {
     display: 'flex',
-    alignItems: 'center',
   },
   folderTextRow: {
     display: 'flex',
@@ -543,8 +682,13 @@ const ds = {
     gap: 4,
   },
   folderSub: {
-    fontSize: 10,
-    color: '#94A3B8',
+    fontSize: 11,
+    color: '#64748B',
+    fontWeight: 500,
+  },
+  selectedFolderSub: {
+    fontSize: 11,
+    color: 'rgba(255, 255, 255, 0.75)',
     fontWeight: 500,
   },
   folderTitle: {
@@ -553,43 +697,18 @@ const ds = {
     color: '#0F172A',
     margin: 0,
   },
-
-  // Selected Folder Card (Highlighted in deep blue matching screenshot)
-  selectedFolderCard: {
-    background: '#2563EB',
-    border: '1px solid #1D4ED8',
-    borderRadius: 16,
-    padding: 16,
-    display: 'flex',
-    flexDirection: 'column',
-    textDecoration: 'none',
-    gap: 16,
-    boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
-  },
-  selectedBadge: {
-    fontSize: 9,
-    fontWeight: 700,
-    color: 'rgba(255, 255, 255, 0.6)',
-    letterSpacing: '0.04em',
-  },
-  selectedFolderSub: {
-    fontSize: 10,
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontWeight: 500,
-  },
   selectedFolderTitle: {
     fontSize: 15,
     fontWeight: 700,
     color: '#FFFFFF',
     margin: 0,
   },
-
-  // Table styling matching Google Drive file list
   tableContainer: {
+    background: '#FFFFFF',
     border: '1px solid #E2E8F0',
     borderRadius: 16,
     overflow: 'hidden',
-    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.02)',
+    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.02)',
   },
   table: {
     width: '100%',
@@ -599,21 +718,21 @@ const ds = {
   tableHeaderRow: {
     borderBottom: '1px solid #E2E8F0',
     background: '#F8FAFC',
-    className: 'db-table-header-row',
   },
   th: {
     padding: '14px 20px',
-    fontSize: 11,
-    fontWeight: 700,
+    fontSize: 10,
+    fontWeight: 800,
     color: '#64748B',
-    letterSpacing: '0.05em',
+    letterSpacing: '0.08em',
   },
   tableRow: {
     borderBottom: '1px solid #F1F5F9',
-    background: '#FFFFFF',
   },
   td: {
     padding: '16px 20px',
+    fontSize: 13,
+    color: '#334155',
     verticalAlign: 'middle',
   },
   fileNameCell: {
@@ -622,107 +741,38 @@ const ds = {
     gap: 12,
   },
   fileNameText: {
-    fontSize: 14,
     fontWeight: 600,
-    color: '#0F172A',
+    color: '#1E293B',
     textDecoration: 'none',
-    transition: 'color 0.2s',
-  },
-  ownerCell: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  },
-  ownerAvatar: {
-    width: 22,
-    height: 22,
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #3B82F6, #10B981)',
-    color: '#FFFFFF',
-    fontSize: 9,
-    fontWeight: 700,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   ownerLabel: {
-    fontSize: 13,
-    color: '#475569',
+    fontSize: 12,
+    color: '#64748B',
     fontWeight: 500,
   },
   tipText: {
+    color: '#475569',
     fontSize: 13,
-    color: '#64748B',
-    lineHeight: 1.5,
-  },
-  sizeText: {
-    fontSize: 13,
-    color: '#64748B',
-    fontWeight: 500,
+    fontWeight: 500
   },
   rowActionsWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    gap: 12,
+    gap: 8,
   },
   rowActionButton: {
     background: 'none',
     border: 'none',
     cursor: 'pointer',
     color: '#64748B',
-    padding: 4,
-    borderRadius: 4,
+    width: 32,
+    height: 32,
+    borderRadius: 6,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.2s',
-  },
-
-  // Premium Promotion card styled like Google Drive Storage Banner
-  upgradeCard: {
-    background: 'linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #06B6D4 100%)',
-    borderRadius: 24,
-    padding: '36px 40px',
-    color: '#FFFFFF',
-    boxShadow: '0 10px 30px rgba(37, 99, 235, 0.2)',
-  },
-  upgradeInner: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: 20,
-  },
-  upgradeText: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 8,
-    maxWidth: 500,
-  },
-  upgradeTitle: {
-    fontSize: 20,
-    fontWeight: 800,
-    margin: 0,
-    letterSpacing: '-0.02em',
-  },
-  upgradeDesc: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.85)',
-    margin: 0,
-    lineHeight: 1.6,
-  },
-  upgradeBtn: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    textDecoration: 'none',
-    background: '#FFFFFF',
-    color: '#2563EB',
-    fontWeight: 800,
-    fontSize: 14,
-    padding: '12px 24px',
-    borderRadius: 12,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    transition: 'all 0.2s',
-  },
+    transition: 'all 0.15s',
+    textDecoration: 'none'
+  }
 };
