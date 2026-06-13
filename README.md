@@ -116,7 +116,7 @@ cd SkillBridgeAI
 
 ## 👥 Developer & Contact Details
 * **Developer:** Vaishnavi Shinde
-* **Project Role:** Solo Full-Stack Developer (Frontend & Backend)
+* **Project Role:** Solo Web Development (Frontend & Backend)
 * **GitHub Profile:** [vaishh002](https://github.com/vaishh002)
 * **GitHub Repository:** [SkillBridgeAI](https://github.com/vaishh002/SkillBridgeAI.git)
 * **LinkedIn:** [Vaishnavi Shinde](https://www.linkedin.com/in/vaishnavi-shinde02/) 
