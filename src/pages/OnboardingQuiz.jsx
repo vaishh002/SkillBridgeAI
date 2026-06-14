@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
+
 
 export default function OnboardingQuiz() {
   const { token, login, user, logout } = useAuth();
@@ -62,7 +64,7 @@ export default function OnboardingQuiz() {
     setError('');
 
     try {
-      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap/preferences', {
+      const response = await fetch(`${API_BASE_URL}/api/roadmap/preferences`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

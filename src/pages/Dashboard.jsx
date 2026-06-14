@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
+
 
 // ─── Document Type Icons ──────────────────────────────────────────
 function PDFIcon() {
@@ -86,7 +88,7 @@ export default function Dashboard() {
 
   const [roadmap, setRoadmap] = useState([]);
   const [preferences, setPreferences] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   const firstName = user?.fullName?.split(' ')[0] || user?.name?.split(' ')[0] || 'Learner';
 
@@ -94,9 +96,9 @@ export default function Dashboard() {
     fetchRoadmapData();
   }, []);
 
-  const fetchRoadmapData = async () => {
+  async function fetchRoadmapData() {
     try {
-      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap', {
+      const response = await fetch(`${API_BASE_URL}/api/roadmap`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -116,9 +118,8 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const activeModules = roadmap.filter(item => item.status === 'in_progress');
   const incompleteModules = roadmap.filter(item => item.status !== 'completed');
   const nextUp = incompleteModules[0] || null;
 

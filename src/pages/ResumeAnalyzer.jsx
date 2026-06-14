@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
+
 
 // ─── Icons ────────────────────────────────────────────────────────
 function UploadIcon() {
@@ -447,7 +449,7 @@ export default function ResumeAnalyzer() {
 
   const handleGenerateRoadmap = async () => {
     try {
-      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap/generate', {
+      const response = await fetch(`${API_BASE_URL}/api/roadmap/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

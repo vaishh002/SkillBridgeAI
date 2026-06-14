@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 
 // ─── Score Ring Component ─────────────────────────────────────────
 function ScoreRing({ score, size = 140, label, color = '#2563EB' }) {

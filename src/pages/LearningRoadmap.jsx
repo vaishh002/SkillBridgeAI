@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
+
 
 export default function LearningRoadmap() {
   const { token, user, login, logout } = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
   const [preferences, setPreferences] = useState(null);
   const [roadmap, setRoadmap] = useState([]);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -17,11 +19,11 @@ export default function LearningRoadmap() {
     fetchRoadmap();
   }, []);
 
-  const fetchRoadmap = async () => {
+  async function fetchRoadmap() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap', {
+      const response = await fetch(`${API_BASE_URL}/api/roadmap`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -50,11 +52,11 @@ export default function LearningRoadmap() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleUpdateStatus = async (itemId, newStatus) => {
     try {
-      const response = await fetch(`https://skillbridge-backend-zk7m.onrender.com/api/roadmap/items/${itemId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/roadmap/items/${itemId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

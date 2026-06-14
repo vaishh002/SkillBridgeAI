@@ -2,6 +2,8 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
+
 
 // ─── Global CSS injected once ────────────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -963,7 +965,7 @@ export default function Register() {
     setLoading(true);
     setApiError('');
     try {
-      const { data } = await axios.post('https://skillbridge-backend-zk7m.onrender.com/api/auth/register', {
+      const { data } = await axios.post(`${API_BASE_URL}/api/auth/register`, {
         fullName: form.fullName.trim(),
         email:    form.email.trim(),
         password: form.password,
