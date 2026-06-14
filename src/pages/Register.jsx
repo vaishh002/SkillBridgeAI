@@ -963,7 +963,7 @@ export default function Register() {
     setLoading(true);
     setApiError('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', {
+      const { data } = await axios.post('https://skillbridge-backend-zk7m.onrender.com/api/auth/register', {
         fullName: form.fullName.trim(),
         email:    form.email.trim(),
         password: form.password,

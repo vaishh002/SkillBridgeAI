@@ -62,7 +62,7 @@ export default function OnboardingQuiz() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/roadmap/preferences', {
+      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap/preferences', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

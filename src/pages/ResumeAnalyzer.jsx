@@ -447,7 +447,7 @@ export default function ResumeAnalyzer() {
 
   const handleGenerateRoadmap = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/roadmap/generate', {
+      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

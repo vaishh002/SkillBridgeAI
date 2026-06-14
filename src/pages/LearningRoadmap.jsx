@@ -21,7 +21,7 @@ export default function LearningRoadmap() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/roadmap', {
+      const response = await fetch('https://skillbridge-backend-zk7m.onrender.com/api/roadmap', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -54,7 +54,7 @@ export default function LearningRoadmap() {
 
   const handleUpdateStatus = async (itemId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/roadmap/items/${itemId}`, {
+      const response = await fetch(`https://skillbridge-backend-zk7m.onrender.com/api/roadmap/items/${itemId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

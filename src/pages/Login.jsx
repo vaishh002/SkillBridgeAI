@@ -752,7 +752,7 @@ export default function Login() {
     setLoading(true);
     setApiError('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+      const { data } = await axios.post('https://skillbridge-backend-zk7m.onrender.com/api/auth/login', {
         email:    form.email.trim(),
         password: form.password,
       });
