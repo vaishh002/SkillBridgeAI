@@ -1,0 +1,454 @@
+[
+  {
+    "_id": "mock_u_ijpytsb8e",
+    "fullName": "Test User",
+    "email": "test@example.com",
+    "password": "$2a$12$fMlnlWCXSimTSDYaoFHgkef5i3eV8gqHgbiu23dOg2j3zjBKWI70G",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T06:42:18.479Z",
+    "targetRole": "",
+    "learningStyle": "",
+    "weeklyHours": 5,
+    "careerReadinessScore": 0,
+    "roadmap": [],
+    "createdAt": "2026-06-13T06:42:05.953Z",
+    "updatedAt": "2026-06-13T06:42:05.953Z"
+  },
+  {
+    "_id": "mock_u_0nm50uc2x",
+    "fullName": "Vaishnavi Shinde",
+    "email": "vaishnavi@gmail.com",
+    "password": "$2a$12$7X83b036mTdgtA8C6tsNAulm9b.aUw3t2h9yMg3dCJV2jvkTvxvVC",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T06:47:46.693Z",
+    "targetRole": "Frontend Developer",
+    "learningStyle": "Practical",
+    "weeklyHours": 10,
+    "careerReadinessScore": 0,
+    "roadmap": [
+      {
+        "skillName": "HTML & CSS",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Build a Responsive Portfolio Webpage",
+            "type": "practice",
+            "url": "https://github.com/florinpop17/app-ideas"
+          },
+          {
+            "title": "Interactive CSS Grid Garden Game",
+            "type": "practice",
+            "url": "https://cssgridgarden.com/"
+          }
+        ]
+      },
+      {
+        "skillName": "JavaScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "30 Days of JavaScript Coding Challenges",
+            "type": "practice",
+            "url": "https://github.com/Asabeneh/30-Days-Of-JavaScript"
+          },
+          {
+            "title": "Build a Calculator App with Vanilla JS",
+            "type": "practice",
+            "url": "https://github.com/florinpop17/app-ideas"
+          }
+        ]
+      },
+      {
+        "skillName": "React.js",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Create a Todo List & Weather App in React",
+            "type": "practice",
+            "url": "https://github.com/florinpop17/app-ideas"
+          },
+          {
+            "title": "React Coding Exercises on Scrimba",
+            "type": "practice",
+            "url": "https://scrimba.com/learn/learnreact"
+          }
+        ]
+      },
+      {
+        "skillName": "Tailwind CSS",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Recreate Tailwind Dashboard Mockup",
+            "type": "practice",
+            "url": "https://github.com/tailwindtoolbox"
+          },
+          {
+            "title": "Interactive Tailwind Play Sandbox",
+            "type": "practice",
+            "url": "https://play.tailwindcss.com/"
+          }
+        ]
+      },
+      {
+        "skillName": "TypeScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Refactor a React App to TypeScript",
+            "type": "practice",
+            "url": "https://github.com/typescript-cheatsheets/react"
+          },
+          {
+            "title": "TypeScript Exercism Practice Track",
+            "type": "practice",
+            "url": "https://exercism.org/tracks/typescript"
+          }
+        ]
+      },
+      {
+        "skillName": "Git & Version Control",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Learn Git Branching Interactively",
+            "type": "practice",
+            "url": "https://learngitbranching.js.org/"
+          },
+          {
+            "title": "Collaborate on a Git Pull Request sandbox",
+            "type": "practice",
+            "url": "https://github.com/firstcontributions/first-contributions"
+          }
+        ]
+      }
+    ],
+    "createdAt": "2026-06-13T06:47:46.693Z",
+    "updatedAt": "2026-06-13T06:47:46.693Z"
+  },
+  {
+    "_id": "mock_u_nj3scnvka",
+    "fullName": "Test User 2",
+    "email": "test2@example.com",
+    "password": "$2a$12$8jYqkZjljwkXlhNaJc90A.fz95XTd2vZRkEmSNRdmO.kao0ZJE4F6",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T06:49:40.440Z",
+    "targetRole": "Frontend Developer",
+    "learningStyle": "Video",
+    "weeklyHours": 10,
+    "careerReadinessScore": 0,
+    "roadmap": [
+      {
+        "skillName": "HTML & CSS",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "HTML & CSS Crash Course for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=Dp8M9q6Fm2I"
+          },
+          {
+            "title": "Learn CSS Flexbox and Grid Visualized",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=3YW62O-V1aU"
+          }
+        ]
+      },
+      {
+        "skillName": "JavaScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "JavaScript Full Course for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=PkZNo7MFNFg"
+          },
+          {
+            "title": "Asynchronous JavaScript & Promises",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=exBgWAIeIeg"
+          }
+        ]
+      },
+      {
+        "skillName": "React.js",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "React JS Full Beginner Course (2026)",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=bMknfKXIFA8"
+          },
+          {
+            "title": "React Hooks Explained (useState, useEffect)",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=TNhaISOUy6g"
+          }
+        ]
+      },
+      {
+        "skillName": "Tailwind CSS",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Tailwind CSS Course - Rapid UI Design",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=lCxcTsOHr54"
+          },
+          {
+            "title": "Build a Modern landing page with Tailwind",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=dFgzHOX84xQ"
+          }
+        ]
+      },
+      {
+        "skillName": "TypeScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "TypeScript Full Tutorial for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=d56mG7DezGs"
+          },
+          {
+            "title": "TypeScript Design Patterns",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=qvZz86J1jZk"
+          }
+        ]
+      },
+      {
+        "skillName": "Git & Version Control",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Git & GitHub Crash Course for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=RGOj5yH7evk"
+          },
+          {
+            "title": "Advanced Git: Merge vs Rebase vs Cherry-pick",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=ecK3-S5IFac"
+          }
+        ]
+      }
+    ],
+    "createdAt": "2026-06-13T06:49:40.443Z",
+    "updatedAt": "2026-06-13T06:49:40.443Z"
+  },
+  {
+    "_id": "mock_u_bkse8y2gk",
+    "fullName": "Vaishnavi Sunil Shinde",
+    "email": "shindevaishnavi022003@gmail.com",
+    "password": "$2a$12$ccww1E.VXeR7FLidQuLc2eZXVB3ZAHkgbaTylgDRNbokwT5KK1Z..",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T10:47:35.291Z",
+    "targetRole": "React Developer",
+    "learningStyle": "Video",
+    "weeklyHours": 20,
+    "careerReadinessScore": 0,
+    "roadmap": [
+      {
+        "skillName": "Docker",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Docker Tutorial for Beginners (Containerization)",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=3c-iKanqeCo"
+          },
+          {
+            "title": "Docker Compose and Multi-container Deploy",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=DM65_YeXcnY"
+          }
+        ]
+      },
+      {
+        "skillName": "Kubernetes",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Kubernetes Tutorial for Beginners [Full Course]",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=X48VuDVv0do"
+          },
+          {
+            "title": "Kubernetes Architecture & Core Concepts",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=VnvRFRk_51k"
+          }
+        ]
+      },
+      {
+        "skillName": "AWS & Cloud Computing",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "AWS Certified Cloud Practitioner Course",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=SOTamWGuDKc"
+          },
+          {
+            "title": "AWS EC2, S3, and RDS in 1 Hour",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=3hLmDS179YE"
+          }
+        ]
+      },
+      {
+        "skillName": "TypeScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "TypeScript Full Tutorial for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=d56mG7DezGs"
+          },
+          {
+            "title": "TypeScript Design Patterns",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=qvZz86J1jZk"
+          }
+        ]
+      },
+      {
+        "skillName": "JavaScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "JavaScript Full Course for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=PkZNo7MFNFg"
+          },
+          {
+            "title": "Asynchronous JavaScript & Promises",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=exBgWAIeIeg"
+          }
+        ]
+      }
+    ],
+    "createdAt": "2026-06-13T10:47:35.291Z",
+    "updatedAt": "2026-06-13T10:47:35.291Z"
+  },
+  {
+    "_id": "mock_u_tr4h5qgoe",
+    "fullName": "John Doe",
+    "email": "john@gmail.com",
+    "password": "$2a$12$Gn0dXaCz8hsMCfapwvY8nu1wewRAPyYL/3jfwzLV.h8X3A8NpKv0m",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T11:39:29.577Z",
+    "targetRole": "",
+    "learningStyle": "",
+    "weeklyHours": 5,
+    "careerReadinessScore": 0,
+    "roadmap": [],
+    "createdAt": "2026-06-13T11:39:29.577Z",
+    "updatedAt": "2026-06-13T11:39:29.577Z"
+  },
+  {
+    "_id": "mock_u_8r552iuvo",
+    "fullName": "John Doe",
+    "email": "johnn@gmail.com",
+    "password": "$2a$12$RRBL6QJpMbUmWS99efmPEuZjGwty2hkFElx1Cb4BGqaaQW.rRBEXu",
+    "role": "student",
+    "isActive": true,
+    "lastLogin": "2026-06-13T11:42:31.963Z",
+    "targetRole": "React Developer",
+    "learningStyle": "Video",
+    "weeklyHours": 20,
+    "careerReadinessScore": 0,
+    "roadmap": [
+      {
+        "skillName": "Docker",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Docker Tutorial for Beginners (Containerization)",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=3c-iKanqeCo"
+          },
+          {
+            "title": "Docker Compose and Multi-container Deploy",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=DM65_YeXcnY"
+          }
+        ]
+      },
+      {
+        "skillName": "Kubernetes",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "Kubernetes Tutorial for Beginners [Full Course]",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=X48VuDVv0do"
+          },
+          {
+            "title": "Kubernetes Architecture & Core Concepts",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=VnvRFRk_51k"
+          }
+        ]
+      },
+      {
+        "skillName": "AWS & Cloud Computing",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "AWS Certified Cloud Practitioner Course",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=SOTamWGuDKc"
+          },
+          {
+            "title": "AWS EC2, S3, and RDS in 1 Hour",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=3hLmDS179YE"
+          }
+        ]
+      },
+      {
+        "skillName": "TypeScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "TypeScript Full Tutorial for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=d56mG7DezGs"
+          },
+          {
+            "title": "TypeScript Design Patterns",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=qvZz86J1jZk"
+          }
+        ]
+      },
+      {
+        "skillName": "JavaScript",
+        "status": "not_started",
+        "resources": [
+          {
+            "title": "JavaScript Full Course for Beginners",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=PkZNo7MFNFg"
+          },
+          {
+            "title": "Asynchronous JavaScript & Promises",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=exBgWAIeIeg"
+          }
+        ]
+      }
+    ],
+    "createdAt": "2026-06-13T11:42:31.965Z",
+    "updatedAt": "2026-06-13T11:42:31.965Z"
+  }
+]
